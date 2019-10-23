@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/dbgeek/terraform-provider-ovm/ovm"
+	"github.com/devans10/terraform-provider-ovm/ovm"
 	"github.com/hashicorp/terraform/plugin"
 )
 

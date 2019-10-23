@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/dbgeek/go-ovm-helper/ovmHelper"
+	"github.com/devans10/go-ovm-helper/ovmHelper"
 )
 
 type Config struct {

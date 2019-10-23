@@ -3,7 +3,7 @@ package ovm
 import (
 	"log"
 
-	"github.com/dbgeek/go-ovm-helper/ovmHelper"
+	"github.com/devans10/go-ovm-helper/ovmHelper"
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
