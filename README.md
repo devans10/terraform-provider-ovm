@@ -6,14 +6,14 @@ This project is a [terraform](http://www.terraform.io/) provider for [OVM](https
 
 You should have a working Go environment setup.  If not check out the Go [getting started](http://golang.org/doc/install) guide.
 
-This relies on the [go-ovm-helper](https://github.com/dbgeek/go-ovm-helper) library. To
-get that: `go get github.com/dbgeek/go-pingdom/go-ovm-helper/ovmHelper`.
+This relies on the [go-ovm-helper](https://github.com/devans10/go-ovm-helper) library. To
+get that: `go get github.com/devans10/go-pingdom/go-ovm-helper/ovmHelper`.
 
 You'll also need the libraries from terraform.  Check out those docs under [plugin basics](http://www.terraform.io/docs/plugins/basics.html)
 
 ### Build ###
 
-Run `go install github.com/dbgeek/terraform-provider-ovm`
+Run `go install github.com/devans10/terraform-provider-ovm`
 
 ### Install ###
 
