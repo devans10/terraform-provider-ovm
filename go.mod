@@ -14,7 +14,7 @@ require (
 	github.com/hashicorp/hcl2 v0.0.0-20190214115825-fb2bc46cdbe3 // indirect
 	github.com/hashicorp/hil v0.0.0-20190212132231-97b3a9cdfa93 // indirect
 	github.com/hashicorp/logutils v1.0.0 // indirect
-	github.com/hashicorp/terraform v0.11.11
+	github.com/hashicorp/terraform v0.13.1 // indirect
 	github.com/mitchellh/cli v1.0.0 // indirect
 	github.com/mitchellh/copystructure v1.0.0 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
