@@ -9,11 +9,18 @@ import (
 
 func dataSourceOvmVm() *schema.Resource {
 	return &schema.Resource{
-		Read:   dataSourceOvmVmRead,
+		Read: dataSourceOvmVmRead,
 
 		Schema: map[string]*schema.Schema{
 			"name": &schema.Schema{
 				Type:     schema.TypeString,
+				Required: true,
+			},
+			"repositoryid": &schema.Schema{
+				Type: schema.TypeMap,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 				Required: true,
 			},
 			"cpucount": &schema.Schema{
@@ -25,7 +32,7 @@ func dataSourceOvmVm() *schema.Resource {
 				Optional: true,
 			},
 			"highavailabiltiy": &schema.Schema{
-				Type:	  schema.TypeBool,
+				Type:     schema.TypeBool,
 				Optional: true,
 			},
 			"hugepagesenabled": &schema.Schema{
@@ -57,64 +64,59 @@ func dataSourceOvmVm() *schema.Resource {
 				Optional: true,
 			},
 			"vmdiskmappingids": &schema.Schema{
-				Type:	  schema.TypeSet,
+				Type: schema.TypeSet,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"type": {
-								 Type:	   schema.TypeString,
-								 Required: true,
+							Type:     schema.TypeString,
+							Required: true,
 						},
 						"value": {
-								  Type:		schema.TypeString,
-								  Required: true,
+							Type:     schema.TypeString,
+							Required: true,
 						},
 						"name": {
-								 Type:		schema.TypeString,
-								 Required: true,
+							Type:     schema.TypeString,
+							Required: true,
 						},
 						"uri": {
-								Type:		schema.TypeString,
-								Required: true,
+							Type:     schema.TypeString,
+							Required: true,
 						},
 					},
 				},
+				Optional: true,
 			},
 			"virtualnicids": &schema.Schema{
-				Type:	  schema.TypeSet,
+				Type: schema.TypeSet,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"type": {
-								 Type:	   schema.TypeString,
-								 Required: true,
+							Type:     schema.TypeString,
+							Required: true,
 						},
 						"value": {
-								  Type:		schema.TypeString,
-								  Required: true,
+							Type:     schema.TypeString,
+							Required: true,
 						},
 						"name": {
-								 Type:		schema.TypeString,
-								 Required: true,
+							Type:     schema.TypeString,
+							Required: true,
 						},
 						"uri": {
-								Type:		schema.TypeString,
-								Required: true,
+							Type:     schema.TypeString,
+							Required: true,
 						},
 					},
 				},
-			},
-			"repositoryid": &schema.Schema{
-				Type:     schema.TypeMap,
-				Elem: &schema.Schema{
-					Type: schema.TypeString,
-				},
-				Required: false,
+				Optional: true,
 			},
 			"serverpoolid": &schema.Schema{
-				Type:     schema.TypeMap,
+				Type: schema.TypeMap,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
-				Required: false,
+				Optional: true,
 			},
 		},
 	}
@@ -137,7 +139,7 @@ func dataSourceOvmVmRead(d *schema.ResourceData, meta interface{}) error {
 		fmt.Println("Not find any vm")
 		return nil
 	}
-	
+
 	d.SetId(vm.Id.Value)
 	d.Set("name", vm.Name)
 	d.Set("cpucount", vm.CpuCount)

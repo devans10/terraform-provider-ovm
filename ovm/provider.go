@@ -27,7 +27,8 @@ func Provider() terraform.ResourceProvider {
 			},
 		},
 		DataSourcesMap: map[string]*schema.Resource{
-			"ovm_vm": dataSourceOvmVm(),
+			"ovm_vm":         dataSourceOvmVm(),
+			"ovm_repository": dataSourceOvmRepository(),
 		},
 
 		ResourcesMap: map[string]*schema.Resource{
