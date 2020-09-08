@@ -18,11 +18,11 @@ func dataSourceOvmRepository() *schema.Resource {
 			},
 			"uri": &schema.Schema{
 				Type:     schema.TypeString,
-				Required: true,
+				Computed: true,
 			},
 			"type": &schema.Schema{
 				Type:     schema.TypeString,
-				Required: true,
+				Computed: true,
 			},
 		},
 	}
