@@ -3,7 +3,7 @@ module github.com/devans10/terraform-provider-ovm
 go 1.14
 
 require (
-	github.com/devans10/go-ovm-helper v0.0.0-20180203213650-4a0fa1c4f53c
+	github.com/devans10/go-ovm-helper v0.0.0-20200908134548-6507a7aa9aef
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/hashicorp/hil v0.0.0-20190212132231-97b3a9cdfa93 // indirect
 	github.com/hashicorp/terraform v0.13.1
