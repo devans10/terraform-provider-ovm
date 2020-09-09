@@ -157,8 +157,8 @@ func dataSourceOvmVmRead(d *schema.ResourceData, meta interface{}) error {
 	d.Set("vmdomaintype", vm.VmDomainType)
 	d.Set("vmmousetype", vm.VmMouseType)
 	d.Set("osversion", vm.OsVersion)
-	d.Set("vmdiskmappingids", vm.VmDiskMappingIds)
-	d.Set("virtualnicids", vm.VirtualNicIds)
+	d.Set("vmdiskmappingids", flattenIds(vm.VmDiskMappingIds))
+	d.Set("virtualnicids", flattenIds(vm.VirtualNicIds))
 	d.Set("repositoryid", vm.RepositoryId)
 	d.Set("serverpoolid", vm.ServerPoolId)
 	return nil
@@ -175,4 +175,18 @@ func dataSourceOvmIdHash(v interface{}) int {
 		strings.ToLower(m["type"].(string))))
 
 	return hashcode.String(buf.String())
+}
+
+func flattenIds(list []*ovmHelper.Id) []map[string]interface{} {
+	result := make([]map[string]interface{}, 0, len(list))
+	for _, i := range list {
+		l := map[string]interface{}{
+			"name":  strings.ToLower(i.Name),
+			"value": strings.ToLower(i.Value),
+			"type":  strings.ToLower(i.Type),
+			"uri":   strings.ToLower(i.Uri),
+		}
+		result = append(result, l)
+	}
+	return result
 }
