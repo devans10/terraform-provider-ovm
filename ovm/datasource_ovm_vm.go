@@ -1,9 +1,12 @@
 package ovm
 
 import (
+	"bytes"
 	"fmt"
+	"strings"
 
 	"github.com/devans10/go-ovm-helper/ovmHelper"
+	"github.com/hashicorp/terraform/helper/hashcode"
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
@@ -25,43 +28,43 @@ func dataSourceOvmVm() *schema.Resource {
 			},
 			"cpucount": &schema.Schema{
 				Type:     schema.TypeInt,
-				Optional: true,
+				Computed: true,
 			},
 			"cpucountlimit": &schema.Schema{
 				Type:     schema.TypeInt,
-				Optional: true,
+				Computed: true,
 			},
 			"highavailabiltiy": &schema.Schema{
 				Type:     schema.TypeBool,
-				Optional: true,
+				Computed: true,
 			},
 			"hugepagesenabled": &schema.Schema{
 				Type:     schema.TypeBool,
-				Optional: true,
+				Computed: true,
 			},
 			"memory": &schema.Schema{
 				Type:     schema.TypeInt,
-				Optional: true,
+				Computed: true,
 			},
 			"memorylimit": &schema.Schema{
 				Type:     schema.TypeInt,
-				Optional: true,
+				Computed: true,
 			},
 			"ostype": &schema.Schema{
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 			"vmdomaintype": &schema.Schema{
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 			"vmmousetype": &schema.Schema{
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 			"osversion": &schema.Schema{
 				Type:     schema.TypeString,
-				Optional: true,
+				Computed: true,
 			},
 			"vmdiskmappingids": &schema.Schema{
 				Type: schema.TypeSet,
@@ -85,7 +88,8 @@ func dataSourceOvmVm() *schema.Resource {
 						},
 					},
 				},
-				Optional: true,
+				Computed: true,
+				Set:      dataSourceOvmIdHash,
 			},
 			"virtualnicids": &schema.Schema{
 				Type: schema.TypeSet,
@@ -109,14 +113,15 @@ func dataSourceOvmVm() *schema.Resource {
 						},
 					},
 				},
-				Optional: true,
+				Computed: true,
+				Set:      dataSourceOvmIdHash,
 			},
 			"serverpoolid": &schema.Schema{
 				Type: schema.TypeMap,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
-				Optional: true,
+				Computed: true,
 			},
 		},
 	}
@@ -157,4 +162,17 @@ func dataSourceOvmVmRead(d *schema.ResourceData, meta interface{}) error {
 	d.Set("repositoryid", vm.RepositoryId)
 	d.Set("serverpoolid", vm.ServerPoolId)
 	return nil
+}
+
+func dataSourceOvmIdHash(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	buf.WriteString(fmt.Sprintf("%s-",
+		strings.ToLower(m["value"].(string))))
+	buf.WriteString(fmt.Sprintf("%s-",
+		strings.ToLower(m["name"].(string))))
+	buf.WriteString(fmt.Sprintf("%s-",
+		strings.ToLower(m["type"].(string))))
+
+	return hashcode.String(buf.String())
 }
