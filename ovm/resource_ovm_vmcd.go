@@ -17,17 +17,17 @@ func resourceOvmVmcd() *schema.Resource {
 				},*/
 
 		Schema: map[string]*schema.Schema{
-			"vmid": &schema.Schema{
+			"vmid": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"description": &schema.Schema{
+			"description": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,

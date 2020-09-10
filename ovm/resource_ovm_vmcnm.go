@@ -17,22 +17,22 @@ func resourceOvmVmcnm() *schema.Resource {
 				},*/
 
 		Schema: map[string]*schema.Schema{
-			"networkid": &schema.Schema{
+			"networkid": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"vmclonedefinitionid": &schema.Schema{
+			"vmclonedefinitionid": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"virtualnicid": &schema.Schema{
+			"virtualnicid": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,

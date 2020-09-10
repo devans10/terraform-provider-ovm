@@ -8,32 +8,33 @@ import (
 	"github.com/mitchellh/mapstructure"
 )
 
+// Provider - sets the provider settings to connect to OVM
 func Provider() terraform.ResourceProvider {
 	return &schema.Provider{
 		Schema: map[string]*schema.Schema{
-			"user": &schema.Schema{
+			"user": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
 
-			"password": &schema.Schema{
+			"password": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
 
-			"entrypoint": &schema.Schema{
+			"entrypoint": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
 		},
 		DataSourcesMap: map[string]*schema.Resource{
-			"ovm_vm":         dataSourceOvmVm(),
+			"ovm_vm":         dataSourceOvmVM(),
 			"ovm_repository": dataSourceOvmRepository(),
 			"ovm_serverpool": dataSourceOvmServerPool(),
 		},
 
 		ResourcesMap: map[string]*schema.Resource{
-			"ovm_vm":    resourceOvmVm(),
+			"ovm_vm":    resourceOvmVM(),
 			"ovm_vmcd":  resourceOvmVmcd(),
 			"ovm_vd":    resourceOvmVd(),
 			"ovm_vdm":   resourceOvmVdm(),

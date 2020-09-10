@@ -17,27 +17,27 @@ func resourceOvmVmcsm() *schema.Resource {
 				},*/
 
 		Schema: map[string]*schema.Schema{
-			"vmdiskmappingid": &schema.Schema{
+			"vmdiskmappingid": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"vmclonedefinitionid": &schema.Schema{
+			"vmclonedefinitionid": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"repositoryid": &schema.Schema{
+			"repositoryid": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"clonetype": &schema.Schema{
+			"clonetype": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,

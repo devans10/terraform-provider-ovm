@@ -19,36 +19,36 @@ func resourceOvmVd() *schema.Resource {
 				},*/
 
 		Schema: map[string]*schema.Schema{
-			"repositoryid": &schema.Schema{
+			"repositoryid": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"size": &schema.Schema{
+			"size": {
 				Type:     schema.TypeInt,
 				Required: true,
 				ForceNew: false,
 			},
-			"sparse": &schema.Schema{
+			"sparse": {
 				Type:     schema.TypeBool,
 				Required: true,
 				ForceNew: false,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: false,
 				ForceNew: false,
 				Optional: true,
 				Computed: true,
 			},
-			"description": &schema.Schema{
+			"description": {
 				Type:     schema.TypeString,
 				Required: false,
 				ForceNew: false,
 				Optional: true,
 				Computed: true,
 			},
-			"shareable": &schema.Schema{
+			"shareable": {
 				Type:     schema.TypeBool,
 				Required: false,
 				ForceNew: false,

@@ -12,15 +12,15 @@ func dataSourceOvmRepository() *schema.Resource {
 		Read: dataSourceOvmRepositoryRead,
 
 		Schema: map[string]*schema.Schema{
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"uri": &schema.Schema{
+			"uri": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"type": &schema.Schema{
+			"type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},

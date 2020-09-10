@@ -19,28 +19,28 @@ func resourceOvmVdm() *schema.Resource {
 				},*/
 
 		Schema: map[string]*schema.Schema{
-			"vmid": &schema.Schema{
+			"vmid": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"vdid": &schema.Schema{
+			"vdid": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"slot": &schema.Schema{
+			"slot": {
 				Type:     schema.TypeInt,
 				Required: true,
 				ForceNew: true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
 				Computed: true,
 			},
-			"description": &schema.Schema{
+			"description": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,

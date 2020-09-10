@@ -10,63 +10,63 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func dataSourceOvmVm() *schema.Resource {
+func dataSourceOvmVM() *schema.Resource {
 	return &schema.Resource{
-		Read: dataSourceOvmVmRead,
+		Read: dataSourceOvmVMRead,
 
 		Schema: map[string]*schema.Schema{
-			"name": &schema.Schema{
+			"name": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"repositoryid": &schema.Schema{
+			"repositoryid": {
 				Type: schema.TypeMap,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
 				Required: true,
 			},
-			"cpucount": &schema.Schema{
+			"cpucount": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"cpucountlimit": &schema.Schema{
+			"cpucountlimit": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"highavailabiltiy": &schema.Schema{
+			"highavailabiltiy": {
 				Type:     schema.TypeBool,
 				Computed: true,
 			},
-			"hugepagesenabled": &schema.Schema{
+			"hugepagesenabled": {
 				Type:     schema.TypeBool,
 				Computed: true,
 			},
-			"memory": &schema.Schema{
+			"memory": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"memorylimit": &schema.Schema{
+			"memorylimit": {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"ostype": &schema.Schema{
+			"ostype": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"vmdomaintype": &schema.Schema{
+			"vmdomaintype": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"vmmousetype": &schema.Schema{
+			"vmmousetype": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"osversion": &schema.Schema{
+			"osversion": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"vmdiskmappingids": &schema.Schema{
+			"vmdiskmappingids": {
 				Type: schema.TypeSet,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
@@ -89,9 +89,9 @@ func dataSourceOvmVm() *schema.Resource {
 					},
 				},
 				Computed: true,
-				Set:      dataSourceOvmIdHash,
+				Set:      dataSourceOvmIDHash,
 			},
-			"virtualnicids": &schema.Schema{
+			"virtualnicids": {
 				Type: schema.TypeSet,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
@@ -114,9 +114,9 @@ func dataSourceOvmVm() *schema.Resource {
 					},
 				},
 				Computed: true,
-				Set:      dataSourceOvmIdHash,
+				Set:      dataSourceOvmIDHash,
 			},
-			"serverpoolid": &schema.Schema{
+			"serverpoolid": {
 				Type: schema.TypeMap,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
@@ -127,7 +127,7 @@ func dataSourceOvmVm() *schema.Resource {
 	}
 }
 
-func dataSourceOvmVmRead(d *schema.ResourceData, meta interface{}) error {
+func dataSourceOvmVMRead(d *schema.ResourceData, meta interface{}) error {
 	client := meta.(*ovmHelper.Client)
 
 	id, err := client.Vms.GetIdFromName(d.Get("name").(string))
@@ -164,7 +164,7 @@ func dataSourceOvmVmRead(d *schema.ResourceData, meta interface{}) error {
 	return nil
 }
 
-func dataSourceOvmIdHash(v interface{}) int {
+func dataSourceOvmIDHash(v interface{}) int {
 	var buf bytes.Buffer
 	m := v.(map[string]interface{})
 	buf.WriteString(fmt.Sprintf("%s-",
