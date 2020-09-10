@@ -204,10 +204,15 @@ func resourceOvmVmRead(d *schema.ResourceData, meta interface{}) error {
 		return nil
 	}
 
+	d.Set("name", vm.Name)
 	d.Set("repositoryid", vm.RepositoryId)
 	d.Set("serverpoolid", vm.ServerPoolId)
-	d.Set("vmdomaintype", vm.VmDomainType)
 	d.Set("cpucount", vm.CpuCount)
+	d.Set("cpucountlimit", vm.CpuCountLimit)
+	d.Set("hugepagesenabled", vm.HugePagesEnabled)
+	d.Set("memory", vm.Memory)
+	d.Set("vmdomaintype", vm.VmDomainType)
+	
 	return nil
 }
 
