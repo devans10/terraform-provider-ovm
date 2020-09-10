@@ -337,11 +337,11 @@ func resourceOvmVM() *schema.Resource {
 				Required: false,
 				ForceNew: true,
 			},
-			"vmconfigFileAbsolutePath": {
+			"vmconfigfileabsolutepath": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"vmconfigFileMountedPath": {
+			"vmconfigfilemountedpath": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -553,6 +553,20 @@ func resourceOvmVMRead(d *schema.ResourceData, meta interface{}) error {
 	d.Set("restartactiononpoweroff", vm.RestartActionOnPowerOff)
 	d.Set("restartactiononrestart", vm.RestartActionOnRestart)
 	d.Set("vmdomaintype", vm.VmDomainType)
+	d.Set("serverid", vm.ServerId)
+	d.Set("sslvncport", vm.SslVncPort)
+	d.Set("sslttyport", vm.SslTtyPort)
+	d.Set("userdata", vm.UserData)
+	d.Set("virutalnicids", flattenIds(vm.VirtualNicIds))
+	d.Set("vmapiversion", vm.VmApiVersion)
+	d.Set("vmclonedefinitions", flattenIds(vm.VmCloneDefinitionIds))
+	d.Set("vmconfigfileabsolutepath", vm.VmConfigFileAbsolutePath)
+	d.Set("vmconfigfilemountedpath", vm.VmConfigFileMountedPath)
+	d.Set("vmdiskmappingids", flattenIds(vm.VmDiskMappingIds))
+	d.Set("vmdomaintype", vm.VmDomainType)
+	d.Set("vmmousetype", vm.VmMouseType)
+	d.Set("vmrunstate", vm.VmRunState)
+	d.Set("vmstartpolicy", vm.VmStartPolicy)
 
 	return nil
 }
