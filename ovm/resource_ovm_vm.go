@@ -104,7 +104,7 @@ func resourceOvmVM() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"diskLimit": {
+			"disklimit": {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
