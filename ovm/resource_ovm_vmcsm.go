@@ -57,12 +57,14 @@ func checkForResourceVmcsm(d *schema.ResourceData) (ovmHelper.Vmcsm, error) {
 	if v, ok := d.GetOk("vmdiskmappingid"); ok {
 		vmcsmParams.VmDiskMappingId = &ovmHelper.Id{
 			Value: v.(string),
-			Type:  "com.oracle.ovm.mgr.ws.model.VmDiskMapping"}
+			Type:  "com.oracle.ovm.mgr.ws.model.VmDiskMapping",
+		}
 	}
 	if v, ok := d.GetOk("vmclonedefinitionid"); ok {
 		vmcsmParams.VmCloneDefinitionId = &ovmHelper.Id{
 			Value: v.(string),
-			Type:  "com.oracle.ovm.mgr.ws.model.VmCloneDefinition"}
+			Type:  "com.oracle.ovm.mgr.ws.model.VmCloneDefinition",
+		}
 	}
 	if v, ok := d.GetOk("repositoryid"); ok {
 		vmcsmParams.RepositoryId = &ovmHelper.Id{
@@ -89,7 +91,7 @@ func resourceOvmVmcsmRead(d *schema.ResourceData, meta interface{}) error {
 		return nil
 	}
 
-	d.Set("vmdiskmappingid", flattenID(vmcsm.VmDiskMappingId))
+	d.Set("vmdiskmappingid", vmcsm.VmDiskMappingId.Value)
 	d.Set("vmclonedefinitionid", vmcsm.VmCloneDefinitionId)
 	d.Set("repositoryid", flattenID(vmcsm.RepositoryId))
 	d.Set("clonetype", vmcsm.CloneType)
