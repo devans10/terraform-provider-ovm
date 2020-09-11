@@ -469,7 +469,7 @@ func resourceOvmVMCreate(d *schema.ResourceData, meta interface{}) error {
 
 	d.SetId(*v)
 
-	return nil
+	return resourceOvmVMRead(d, meta)
 }
 
 func resourceOvmVMRead(d *schema.ResourceData, meta interface{}) error {
@@ -545,6 +545,7 @@ func resourceOvmVMDelete(d *schema.ResourceData, meta interface{}) error {
 	if err != nil {
 		return err
 	}
+	d.SetId("")
 	return nil
 }
 
@@ -558,7 +559,7 @@ func resourceOvmVMUpdate(d *schema.ResourceData, meta interface{}) error {
 	if err != nil {
 		return err
 	}
-	return nil
+	return resourceOvmVMRead(d, meta)
 }
 
 func sendmessagesFromMap(m map[string]interface{}) (*[]ovmHelper.KeyValuePair, *[]ovmHelper.KeyValuePair) {
