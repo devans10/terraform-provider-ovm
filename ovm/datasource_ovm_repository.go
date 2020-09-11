@@ -16,6 +16,10 @@ func dataSourceOvmRepository() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"value": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"uri": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -39,6 +43,7 @@ func dataSourceOvmRepositoryRead(d *schema.ResourceData, meta interface{}) error
 	}
 
 	d.SetId(id.Value)
+	d.Set("value", id.Value)
 	d.Set("name", id.Name)
 	d.Set("uri", id.Uri)
 	d.Set("type", id.Type)
