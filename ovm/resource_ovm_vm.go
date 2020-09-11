@@ -94,10 +94,12 @@ func resourceOvmVM() *schema.Resource {
 			},
 			"cpupriority": {
 				Type:     schema.TypeInt,
+				Default:  50,
 				Optional: true,
 			},
 			"cpuutilizationcap": {
 				Type:     schema.TypeInt,
+				Default:  100,
 				Optional: true,
 			},
 			"description": {
@@ -106,7 +108,7 @@ func resourceOvmVM() *schema.Resource {
 			},
 			"disklimit": {
 				Type:     schema.TypeInt,
-				Optional: true,
+				Computed: true,
 			},
 			"generation": {
 				Type:     schema.TypeInt,
