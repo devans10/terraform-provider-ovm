@@ -617,6 +617,7 @@ func resourceOvmUserDataHash(v interface{}) int {
 func flattenID(id *ovmHelper.Id) map[string]interface{} {
 
 	result := map[string]interface{}{
+		"id":    id.Value,
 		"name":  id.Name,
 		"value": id.Value,
 		"type":  id.Type,
