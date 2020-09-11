@@ -42,7 +42,6 @@ func dataSourceOvmServerPoolRead(d *schema.ResourceData, meta interface{}) error
 		return err
 	}
 
-	d.SetId(id.Value)
 	d.Set("name", id.Name)
 	d.Set("value", id.Value)
 	d.Set("uri", id.Uri)
