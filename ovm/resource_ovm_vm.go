@@ -617,10 +617,10 @@ func resourceOvmUserDataHash(v interface{}) int {
 func flattenID(id *ovmHelper.Id) map[string]interface{} {
 
 	result := map[string]interface{}{
-		"name":  strings.ToLower(id.Name),
-		"value": strings.ToLower(id.Value),
-		"type":  strings.ToLower(id.Type),
-		"uri":   strings.ToLower(id.Uri),
+		"Name":  strings.ToLower(id.Name),
+		"Value": strings.ToLower(id.Value),
+		"Type":  strings.ToLower(id.Type),
+		"Uri":   strings.ToLower(id.Uri),
 	}
 
 	return result
