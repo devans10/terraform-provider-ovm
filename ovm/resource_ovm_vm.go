@@ -87,10 +87,12 @@ func resourceOvmVM() *schema.Resource {
 			"cpucount": {
 				Type:     schema.TypeInt,
 				Optional: true,
+				Computed: true,
 			},
 			"cpucountlimit": {
 				Type:     schema.TypeInt,
 				Optional: true,
+				Computed: true,
 			},
 			"cpupriority": {
 				Type:     schema.TypeInt,
@@ -105,6 +107,7 @@ func resourceOvmVM() *schema.Resource {
 			"description": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"disklimit": {
 				Type:     schema.TypeInt,
@@ -121,10 +124,12 @@ func resourceOvmVM() *schema.Resource {
 			"highavailability": {
 				Type:     schema.TypeBool,
 				Optional: true,
+				Default:  true,
 			},
 			"hugepagesenabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
+				Default:  false,
 			},
 			"kernelversion": {
 				Type:     schema.TypeString,
@@ -141,10 +146,12 @@ func resourceOvmVM() *schema.Resource {
 			"memory": {
 				Type:     schema.TypeInt,
 				Optional: true,
+				Computed: true,
 			},
 			"memorylimit": {
 				Type:     schema.TypeInt,
 				Optional: true,
+				Computed: true,
 			},
 			"networkinstallpath": {
 				Type:     schema.TypeString,
@@ -217,6 +224,7 @@ func resourceOvmVM() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
+				Optional: true,
 				Computed: true,
 			},
 			"sslvncport": {
@@ -336,7 +344,19 @@ func resourceOvmVM() *schema.Resource {
 			"vmdomaintype": {
 				Type:     schema.TypeString,
 				Optional: true,
-				Computed: true,
+				ValidateFunc: func(val interface{}, key string) (warns []string, errs []error) {
+					v := val.(string)
+					switch val.(string) {
+					case
+						"XEN_HVM",
+						"XEN_HVM_PV_DRIVERS",
+						"XEN_PVM",
+						"UNKNOWN":
+						return
+					}
+					errs = append(errs, fmt.Errorf("%q must be one of [XEN_HVM, XEN_HVM_PV_DRIVERS, XEN_PVM, UNKNOWN], got: %s", key, v))
+					return
+				},
 			},
 			"vmmousetype": {
 				Type:     schema.TypeString,
