@@ -402,14 +402,14 @@ func checkForResource(d *schema.ResourceData) (ovmHelper.Vm, ovmHelper.CfgVm, er
 	}
 	if v, ok := d.GetOk("repositoryid"); ok {
 		vmParams.RepositoryId = &ovmHelper.Id{
-			Value: v.(map[string]interface{})["Value"].(string),
-			Type:  v.(map[string]interface{})["Type"].(string),
+			Value: v.(map[string]interface{})["value"].(string),
+			Type:  v.(map[string]interface{})["type"].(string),
 		}
 	}
 	if v, ok := d.GetOk("serverpoolid"); ok {
 		vmParams.ServerPoolId = &ovmHelper.Id{
-			Value: v.(map[string]interface{})["Value"].(string),
-			Type:  v.(map[string]interface{})["Type"].(string),
+			Value: v.(map[string]interface{})["value"].(string),
+			Type:  v.(map[string]interface{})["type"].(string),
 		}
 	}
 	if v, ok := d.GetOk("bootorder"); ok {
@@ -617,10 +617,10 @@ func resourceOvmUserDataHash(v interface{}) int {
 func flattenID(id *ovmHelper.Id) map[string]interface{} {
 
 	result := map[string]interface{}{
-		"Name":  strings.ToLower(id.Name),
-		"Value": strings.ToLower(id.Value),
-		"Type":  strings.ToLower(id.Type),
-		"Uri":   strings.ToLower(id.Uri),
+		"name":  strings.ToLower(id.Name),
+		"value": strings.ToLower(id.Value),
+		"type":  strings.ToLower(id.Type),
+		"uri":   strings.ToLower(id.Uri),
 	}
 
 	return result
