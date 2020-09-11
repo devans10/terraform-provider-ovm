@@ -33,6 +33,7 @@ func resourceOvmVmcsm() *schema.Resource {
 					Type: schema.TypeString,
 				},
 				Required: true,
+				ForceNew: true,
 			},
 			"clonetype": {
 				Type:     schema.TypeString,
