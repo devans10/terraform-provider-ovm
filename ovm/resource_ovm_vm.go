@@ -506,8 +506,8 @@ func resourceOvmVMRead(d *schema.ResourceData, meta interface{}) error {
 	}
 
 	d.Set("name", vm.Name)
-	d.Set("repositoryid", vm.RepositoryId)
-	d.Set("serverpoolid", vm.ServerPoolId)
+	d.Set("repositoryid", flattenID(vm.RepositoryId))
+	d.Set("serverpoolid", flattenID(vm.ServerPoolId))
 	d.Set("affinitygroupids", flattenIds(vm.AffinityGroupIds))
 	d.Set("architecture", vm.Architecture)
 	d.Set("bootorder", vm.BootOrder)
@@ -537,7 +537,7 @@ func resourceOvmVMRead(d *schema.ResourceData, meta interface{}) error {
 	d.Set("restartactiononpoweroff", vm.RestartActionOnPowerOff)
 	d.Set("restartactiononrestart", vm.RestartActionOnRestart)
 	d.Set("vmdomaintype", vm.VmDomainType)
-	d.Set("serverid", vm.ServerId)
+	d.Set("serverid", flattenID(vm.ServerId))
 	d.Set("sslvncport", vm.SslVncPort)
 	d.Set("sslttyport", vm.SslTtyPort)
 	d.Set("userdata", vm.UserData)
@@ -612,4 +612,16 @@ func resourceOvmUserDataHash(v interface{}) int {
 		strings.ToLower(m["key"].(string))))
 
 	return hashcode.String(buf.String())
+}
+
+func flattenID(id *ovmHelper.Id) map[string]interface{} {
+
+	result := map[string]interface{}{
+		"name":  strings.ToLower(id.Name),
+		"value": strings.ToLower(id.Value),
+		"type":  strings.ToLower(id.Type),
+		"uri":   strings.ToLower(id.Uri),
+	}
+
+	return result
 }
