@@ -75,8 +75,6 @@ func resourceOvmVM() *schema.Resource {
 			"architecture": {
 				Type:     schema.TypeString,
 				Computed: true,
-				Required: false,
-				ForceNew: false,
 			},
 			"bootorder": {
 				Type: schema.TypeList,
@@ -89,30 +87,18 @@ func resourceOvmVM() *schema.Resource {
 			"cpucount": {
 				Type:     schema.TypeInt,
 				Optional: true,
-				Computed: true,
-				Required: false,
-				ForceNew: false,
 			},
 			"cpucountlimit": {
 				Type:     schema.TypeInt,
 				Optional: true,
-				Computed: true,
-				Required: false,
-				ForceNew: false,
 			},
 			"cpupriority": {
 				Type:     schema.TypeInt,
 				Optional: true,
-				Computed: true,
-				Required: false,
-				ForceNew: false,
 			},
 			"cpuutilizationcap": {
 				Type:     schema.TypeInt,
 				Optional: true,
-				Computed: true,
-				Required: false,
-				ForceNew: false,
 			},
 			"description": {
 				Type:     schema.TypeString,
@@ -133,14 +119,10 @@ func resourceOvmVM() *schema.Resource {
 			"highavailability": {
 				Type:     schema.TypeBool,
 				Optional: true,
-				Computed: true,
 			},
 			"hugepagesenabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
-				Computed: true,
-				Required: false,
-				ForceNew: false,
 			},
 			"kernelversion": {
 				Type:     schema.TypeString,
@@ -157,23 +139,15 @@ func resourceOvmVM() *schema.Resource {
 			"memory": {
 				Type:     schema.TypeInt,
 				Optional: true,
-				Computed: true,
-				Required: false,
-				ForceNew: false,
 			},
 			"memorylimit": {
 				Type:     schema.TypeInt,
 				Optional: true,
-				Computed: true,
-				Required: false,
-				ForceNew: false,
 			},
 			"networkinstallpath": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				Required: false,
-				ForceNew: false,
 			},
 			"origin": {
 				Type:     schema.TypeString,
@@ -225,43 +199,31 @@ func resourceOvmVM() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				Required: false,
-				ForceNew: false,
 			},
 			"restartactiononpoweroff": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				Required: false,
-				ForceNew: false,
 			},
 			"restartactiononrestart": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				Required: false,
-				ForceNew: false,
 			},
 			"serverid": {
 				Type: schema.TypeMap,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
-				Required: true,
+				Computed: true,
 			},
 			"sslvncport": {
 				Type:     schema.TypeString,
-				Optional: true,
 				Computed: true,
-				Required: false,
-				ForceNew: false,
 			},
 			"sslttyport": {
 				Type:     schema.TypeString,
-				Optional: true,
 				Computed: true,
-				Required: false,
-				ForceNew: false,
 			},
 			"userdata": {
 				Type: schema.TypeSet,
@@ -302,8 +264,9 @@ func resourceOvmVM() *schema.Resource {
 						},
 					},
 				},
-				Optional: true,
 				Set:      dataSourceOvmIDHash,
+				Optional: true,
+				Computed: true,
 			},
 			"vmapiversion": {
 				Type:     schema.TypeString,
@@ -332,10 +295,7 @@ func resourceOvmVM() *schema.Resource {
 					},
 				},
 				Set:      dataSourceOvmIDHash,
-				Optional: true,
 				Computed: true,
-				Required: false,
-				ForceNew: true,
 			},
 			"vmconfigfileabsolutepath": {
 				Type:     schema.TypeString,
@@ -375,38 +335,27 @@ func resourceOvmVM() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				Required: false,
-				ForceNew: false,
 			},
 			"vmmousetype": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				Required: false,
-				ForceNew: false,
 			},
 			"vmrunstate": {
 				Type:     schema.TypeString,
-				Optional: true,
 				Computed: true,
-				Required: false,
-				ForceNew: false,
 			},
 			"vmstartpolicy": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				Required: false,
-				ForceNew: false,
 			},
-			"clonevmid": {
+			"vmclonedfinitionid": {
 				Type:     schema.TypeString,
 				Optional: true,
-				Computed: true,
-				Required: false,
 				ForceNew: true,
 			},
-			"networkid": {
+			"imageid": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -417,11 +366,6 @@ func resourceOvmVM() *schema.Resource {
 				Type:     schema.TypeMap,
 				Optional: true,
 			},
-			"startvm": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Default:  true,
-			},
 		},
 	}
 }
@@ -431,39 +375,59 @@ func checkForResource(d *schema.ResourceData) (ovmHelper.Vm, ovmHelper.CfgVm, er
 	vmParams := &ovmHelper.Vm{}
 	tfVMCfgParams := &ovmHelper.CfgVm{}
 
-	// required
+	if v, ok := d.GetOk("name"); ok {
+		vmParams.Name = v.(string)
+	}
 	if v, ok := d.GetOk("repositoryid"); ok {
-		vmParams.RepositoryId = &ovmHelper.Id{Value: v.(string),
-			Type: "com.oracle.ovm.mgr.ws.model.Repository"}
+		vmParams.RepositoryId = v.(*ovmHelper.Id)
 	}
-
 	if v, ok := d.GetOk("serverpoolid"); ok {
-		vmParams.ServerPoolId = &ovmHelper.Id{Value: v.(string),
-			Type: "com.oracle.ovm.mgr.ws.model.ServerPool"}
+		vmParams.ServerPoolId = v.(*ovmHelper.Id)
 	}
-
-	if v, ok := d.GetOk("vmdomaintype"); ok {
-		vmParams.VmDomainType = v.(string)
+	if v, ok := d.GetOk("bootorder"); ok {
+		vmParams.BootOrder = v.([]string)
 	}
-
-	//Optinal parameters
 	if v, ok := d.GetOk("cpucount"); ok {
 		vmParams.CpuCount = v.(int)
 	}
 	if v, ok := d.GetOk("cpucountlimit"); ok {
 		vmParams.CpuCountLimit = v.(int)
 	}
-	if v, ok := d.GetOk("name"); ok {
-		vmParams.Name = v.(string)
+	if v, ok := d.GetOk("cpupriority"); ok {
+		vmParams.CpuPriority = v.(int)
+	}
+	if v, ok := d.GetOk("cpuutilizationcap"); ok {
+		vmParams.CpuUtilizationCap = v.(int)
+	}
+	if v, ok := d.GetOk("description"); ok {
+		vmParams.Description = v.(string)
+	}
+	if v, ok := d.GetOk("highavailabiltiy"); ok {
+		vmParams.HighAvailability = v.(bool)
 	}
 	if v, ok := d.GetOk("hugepagesenabled"); ok {
 		vmParams.HugePagesEnabled = v.(bool)
 	}
+	if v, ok := d.GetOk("keymapname"); ok {
+		vmParams.KeymapName = v.(string)
+	}
 	if v, ok := d.GetOk("memory"); ok {
 		vmParams.Memory = v.(int)
 	}
-	if v, ok := d.GetOk("networkid"); ok {
-		tfVMCfgParams.NetworkId = v.(string)
+	if v, ok := d.GetOk("memorylimit"); ok {
+		vmParams.MemoryLimit = v.(int)
+	}
+	if v, ok := d.GetOk("networkinstallpath"); ok {
+		vmParams.NetworkInstallPath = v.(string)
+	}
+	if v, ok := d.GetOk("ostype"); ok {
+		vmParams.OsType = v.(string)
+	}
+	if v, ok := d.GetOk("vmdomaintype"); ok {
+		vmParams.VmDomainType = v.(string)
+	}
+	if v, ok := d.GetOk("vmmousetype"); ok {
+		vmParams.VmMouseType = v.(string)
 	}
 
 	if v, ok := d.GetOk("sendmessages"); ok {
@@ -485,21 +449,13 @@ func resourceOvmVMCreate(d *schema.ResourceData, meta interface{}) error {
 		return err
 	}
 
-	if d.Get("clonevmid").(string) == "" {
+	if d.Get("imageid").(string) == "" {
 		v, err = client.Vms.CreateVm(vm, tfVMCfgParams)
 		if err != nil {
 			return err
 		}
 	} else {
-		v, err = client.Vms.CloneVm(d.Get("clonevmid").(string), d.Get("vmclonedefinitionid").(string), vm, tfVMCfgParams)
-		if err != nil {
-			return err
-		}
-
-	}
-
-	if d.Get("startvm").(bool) {
-		err = client.Vms.Start(*v)
+		v, err = client.Vms.CloneVm(d.Get("imageid").(string), d.Get("vmclonedefinitionid").(string), vm, tfVMCfgParams)
 		if err != nil {
 			return err
 		}
