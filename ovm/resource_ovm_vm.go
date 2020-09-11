@@ -430,7 +430,7 @@ func checkForResource(d *schema.ResourceData) (ovmHelper.Vm, ovmHelper.CfgVm, er
 	if v, ok := d.GetOk("description"); ok {
 		vmParams.Description = v.(string)
 	}
-	if v, ok := d.GetOk("highavailabiltiy"); ok {
+	if v, ok := d.GetOk("highavailability"); ok {
 		vmParams.HighAvailability = v.(bool)
 	}
 	if v, ok := d.GetOk("hugepagesenabled"); ok {
@@ -617,10 +617,10 @@ func resourceOvmUserDataHash(v interface{}) int {
 func flattenID(id *ovmHelper.Id) map[string]interface{} {
 
 	result := map[string]interface{}{
-		"name":  strings.ToLower(id.Name),
-		"value": strings.ToLower(id.Value),
-		"type":  strings.ToLower(id.Type),
-		"uri":   strings.ToLower(id.Uri),
+		"name":  id.Name,
+		"value": id.Value,
+		"type":  id.Type,
+		"uri":   id.Uri,
 	}
 
 	return result

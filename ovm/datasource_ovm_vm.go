@@ -181,10 +181,10 @@ func flattenIds(list []*ovmHelper.Id) []map[string]interface{} {
 	result := make([]map[string]interface{}, 0, len(list))
 	for _, i := range list {
 		l := map[string]interface{}{
-			"name":  strings.ToLower(i.Name),
-			"value": strings.ToLower(i.Value),
-			"type":  strings.ToLower(i.Type),
-			"uri":   strings.ToLower(i.Uri),
+			"name":  i.Name,
+			"value": i.Value,
+			"type":  i.Type,
+			"uri":   i.Uri,
 		}
 		result = append(result, l)
 	}
