@@ -350,7 +350,7 @@ func resourceOvmVM() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
-			"vmclonedfinitionid": {
+			"vmclonedefinitionid": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
@@ -379,10 +379,16 @@ func checkForResource(d *schema.ResourceData) (ovmHelper.Vm, ovmHelper.CfgVm, er
 		vmParams.Name = v.(string)
 	}
 	if v, ok := d.GetOk("repositoryid"); ok {
-		vmParams.RepositoryId = v.(*ovmHelper.Id)
+		vmParams.RepositoryId = &ovmHelper.Id{
+			Value: v.(map[string]interface{})["Value"].(string),
+			Type:  v.(map[string]interface{})["Type"].(string),
+		}
 	}
 	if v, ok := d.GetOk("serverpoolid"); ok {
-		vmParams.ServerPoolId = v.(*ovmHelper.Id)
+		vmParams.ServerPoolId = &ovmHelper.Id{
+			Value: v.(map[string]interface{})["Value"].(string),
+			Type:  v.(map[string]interface{})["Type"].(string),
+		}
 	}
 	if v, ok := d.GetOk("bootorder"); ok {
 		vmParams.BootOrder = v.([]string)
