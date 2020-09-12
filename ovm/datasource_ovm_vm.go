@@ -176,17 +176,3 @@ func dataSourceOvmIDHash(v interface{}) int {
 
 	return hashcode.String(buf.String())
 }
-
-func flattenIds(list []*ovmHelper.Id) []map[string]interface{} {
-	result := make([]map[string]interface{}, 0, len(list))
-	for _, i := range list {
-		l := map[string]interface{}{
-			"name":  i.Name,
-			"value": i.Value,
-			"type":  i.Type,
-			"uri":   i.Uri,
-		}
-		result = append(result, l)
-	}
-	return result
-}

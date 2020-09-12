@@ -613,15 +613,3 @@ func resourceOvmUserDataHash(v interface{}) int {
 
 	return hashcode.String(buf.String())
 }
-
-func flattenID(id *ovmHelper.Id) map[string]interface{} {
-
-	result := map[string]interface{}{
-		"name":  id.Name,
-		"value": id.Value,
-		"type":  id.Type,
-		"uri":   id.Uri,
-	}
-
-	return result
-}
