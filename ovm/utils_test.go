@@ -43,7 +43,7 @@ func TestFlattenIDs(t *testing.T) {
 	}{
 		{
 			list: []*ovmHelper.Id{
-				&ovmHelper.Id{
+				{
 					Name:  "testexample",
 					Value: "0004fb0000130000dfc5261750e0df78",
 					Type:  "com.oracle.ovm.mgr.ws.model.VmDiskMapping",
