@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/devans10/go-ovm-helper/ovmHelper"
+	"github.com/devans10/go-ovm-helper/ovmhelper"
 	"github.com/hashicorp/terraform/helper/hashcode"
 	"github.com/hashicorp/terraform/helper/schema"
 )
@@ -128,9 +128,9 @@ func dataSourceOvmVM() *schema.Resource {
 }
 
 func dataSourceOvmVMRead(d *schema.ResourceData, meta interface{}) error {
-	client := meta.(*ovmHelper.Client)
+	client := meta.(*ovmhelper.Client)
 
-	id, err := client.Vms.GetIdFromName(d.Get("name").(string))
+	id, err := client.Vms.GetIDFromName(d.Get("name").(string))
 	if err != nil {
 		d.SetId("")
 		fmt.Println(err)
@@ -145,22 +145,22 @@ func dataSourceOvmVMRead(d *schema.ResourceData, meta interface{}) error {
 		return nil
 	}
 
-	d.SetId(vm.Id.Value)
+	d.SetId(vm.ID.Value)
 	d.Set("name", vm.Name)
-	d.Set("cpucount", vm.CpuCount)
-	d.Set("cpucountlimit", vm.CpuCountLimit)
+	d.Set("cpucount", vm.CPUCount)
+	d.Set("cpucountlimit", vm.CPUCountLimit)
 	d.Set("highavailability", vm.HighAvailability)
 	d.Set("hugepagesenabled", vm.HugePagesEnabled)
 	d.Set("memory", vm.Memory)
 	d.Set("memorylimit", vm.MemoryLimit)
 	d.Set("ostype", vm.OsType)
-	d.Set("vmdomaintype", vm.VmDomainType)
-	d.Set("vmmousetype", vm.VmMouseType)
+	d.Set("vmdomaintype", vm.VMDomainType)
+	d.Set("vmmousetype", vm.VMMouseType)
 	d.Set("osversion", vm.OsVersion)
-	d.Set("vmdiskmappingids", flattenIds(vm.VmDiskMappingIds))
-	d.Set("virtualnicids", flattenIds(vm.VirtualNicIds))
-	d.Set("repositoryid", vm.RepositoryId)
-	d.Set("serverpoolid", vm.ServerPoolId)
+	d.Set("vmdiskmappingids", flattenIds(vm.VMDiskMappingIds))
+	d.Set("virtualnicids", flattenIds(vm.VirtualNicIDs))
+	d.Set("repositoryid", vm.RepositoryID)
+	d.Set("serverpoolid", vm.ServerPoolID)
 	return nil
 }
 

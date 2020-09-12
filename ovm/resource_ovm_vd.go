@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/devans10/go-ovm-helper/ovmHelper"
+	"github.com/devans10/go-ovm-helper/ovmhelper"
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
@@ -59,13 +59,13 @@ func resourceOvmVd() *schema.Resource {
 	}
 }
 
-func checkForResourceVd(d *schema.ResourceData) (ovmHelper.Vd, error) {
+func checkForResourceVd(d *schema.ResourceData) (ovmhelper.Vd, error) {
 
-	vdParams := &ovmHelper.Vd{}
+	vdParams := &ovmhelper.Vd{}
 
 	// required
 	if v, ok := d.GetOk("repositoryid"); ok {
-		vdParams.RepositoryId = &ovmHelper.Id{Value: v.(string),
+		vdParams.RepositoryID = &ovmhelper.ID{Value: v.(string),
 			Type: "com.oracle.ovm.mgr.ws.model.Repository"}
 	}
 	if v, ok := d.GetOk("size"); ok {
@@ -86,7 +86,7 @@ func checkForResourceVd(d *schema.ResourceData) (ovmHelper.Vd, error) {
 }
 
 func resourceOvmVdRead(d *schema.ResourceData, meta interface{}) error {
-	client := meta.(*ovmHelper.Client)
+	client := meta.(*ovmhelper.Client)
 
 	vd, _ := client.Vds.Read(d.Id())
 
@@ -96,7 +96,7 @@ func resourceOvmVdRead(d *schema.ResourceData, meta interface{}) error {
 		return nil
 	}
 
-	d.Set("repositoryid", vd.RepositoryId)
+	d.Set("repositoryid", vd.RepositoryID)
 	d.Set("name", vd.Name)
 	d.Set("size", vd.Size)
 	d.Set("description", vd.Description)
@@ -105,7 +105,7 @@ func resourceOvmVdRead(d *schema.ResourceData, meta interface{}) error {
 }
 
 func resourceOvmVdCreate(d *schema.ResourceData, meta interface{}) error {
-	client := meta.(*ovmHelper.Client)
+	client := meta.(*ovmhelper.Client)
 
 	vd, err := checkForResourceVd(d)
 	if err != nil {
@@ -123,7 +123,7 @@ func resourceOvmVdCreate(d *schema.ResourceData, meta interface{}) error {
 }
 
 func resourceOvmVdUpdate(d *schema.ResourceData, meta interface{}) error {
-	client := meta.(*ovmHelper.Client)
+	client := meta.(*ovmhelper.Client)
 	vd, err := checkForResourceVd(d)
 	if err != nil {
 		return err
@@ -136,7 +136,7 @@ func resourceOvmVdUpdate(d *schema.ResourceData, meta interface{}) error {
 }
 
 func resourceOvmVdDelete(d *schema.ResourceData, meta interface{}) error {
-	client := meta.(*ovmHelper.Client)
+	client := meta.(*ovmhelper.Client)
 	log.Printf("[INFO] Deleting Vd: %v", d.Id())
 	err := client.Vds.Delete(d.Get("repositoryid").(string), d.Id())
 	if err != nil {

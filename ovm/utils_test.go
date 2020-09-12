@@ -4,20 +4,20 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/devans10/go-ovm-helper/ovmHelper"
+	"github.com/devans10/go-ovm-helper/ovmhelper"
 )
 
 func TestFlattenID(t *testing.T) {
 	cases := []struct {
-		id       *ovmHelper.Id
+		id       *ovmhelper.ID
 		expected map[string]interface{}
 	}{
 		{
-			id: &ovmHelper.Id{
+			id: &ovmhelper.ID{
 				Name:  "testexample",
 				Value: "0004fb0000130000dfc5261750e0df78",
 				Type:  "com.oracle.ovm.mgr.ws.model.VmDiskMapping",
-				Uri:   "https://localhost:7002//ovm/core/wsapi/rest/VmDiskMapping/0004fb0000130000dfc5261750e0df78",
+				URI:   "https://localhost:7002//ovm/core/wsapi/rest/VmDiskMapping/0004fb0000130000dfc5261750e0df78",
 			},
 			expected: map[string]interface{}{
 				"name":  "testexample",
@@ -38,16 +38,16 @@ func TestFlattenID(t *testing.T) {
 
 func TestFlattenIDs(t *testing.T) {
 	cases := []struct {
-		list     []*ovmHelper.Id
+		list     []*ovmhelper.ID
 		expected []map[string]interface{}
 	}{
 		{
-			list: []*ovmHelper.Id{
+			list: []*ovmhelper.ID{
 				{
 					Name:  "testexample",
 					Value: "0004fb0000130000dfc5261750e0df78",
 					Type:  "com.oracle.ovm.mgr.ws.model.VmDiskMapping",
-					Uri:   "https://localhost:7002//ovm/core/wsapi/rest/VmDiskMapping/0004fb0000130000dfc5261750e0df78",
+					URI:   "https://localhost:7002//ovm/core/wsapi/rest/VmDiskMapping/0004fb0000130000dfc5261750e0df78",
 				},
 			},
 			expected: []map[string]interface{}{

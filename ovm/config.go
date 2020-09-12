@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/devans10/go-ovm-helper/ovmHelper"
+	"github.com/devans10/go-ovm-helper/ovmhelper"
 )
 
 // Config - structure for connecting to OVM Manager
@@ -15,7 +15,7 @@ type Config struct {
 }
 
 // Client - returns a new client for accessing pingdom.
-func (c *Config) Client() (*ovmHelper.Client, error) {
+func (c *Config) Client() (*ovmhelper.Client, error) {
 
 	if v := os.Getenv("OVM_USERNAME"); v != "" {
 		c.User = v
@@ -27,7 +27,7 @@ func (c *Config) Client() (*ovmHelper.Client, error) {
 		c.Entrypoint = v
 	}
 
-	client := ovmHelper.NewClient(c.User, c.Password, c.Entrypoint)
+	client := ovmhelper.NewClient(c.User, c.Password, c.Entrypoint)
 
 	log.Printf("[INFO] OVM Client configured for user: %s", c.User)
 

@@ -3,7 +3,7 @@ package ovm
 import (
 	"log"
 
-	"github.com/devans10/go-ovm-helper/ovmHelper"
+	"github.com/devans10/go-ovm-helper/ovmhelper"
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
@@ -50,17 +50,17 @@ func resourceOvmVdm() *schema.Resource {
 	}
 }
 
-func checkForResourceVdm(d *schema.ResourceData) (ovmHelper.Vdm, error) {
+func checkForResourceVdm(d *schema.ResourceData) (ovmhelper.Vdm, error) {
 
-	vdmParams := &ovmHelper.Vdm{}
+	vdmParams := &ovmhelper.Vdm{}
 
 	// required
 	if v, ok := d.GetOk("vmid"); ok {
-		vdmParams.VmId = &ovmHelper.Id{Value: v.(string),
+		vdmParams.VMID = &ovmhelper.ID{Value: v.(string),
 			Type: "com.oracle.ovm.mgr.ws.model.Vm"}
 	}
 	if v, ok := d.GetOk("vdid"); ok {
-		vdmParams.VirtualDiskId = &ovmHelper.Id{Value: v.(string),
+		vdmParams.VirtualDiskID = &ovmhelper.ID{Value: v.(string),
 			Type: "com.oracle.ovm.mgr.ws.model.VirtualDisk"}
 	}
 	if v, ok := d.GetOk("slot"); ok {
@@ -79,7 +79,7 @@ func checkForResourceVdm(d *schema.ResourceData) (ovmHelper.Vdm, error) {
 }
 
 func resourceOvmVdmRead(d *schema.ResourceData, meta interface{}) error {
-	client := meta.(*ovmHelper.Client)
+	client := meta.(*ovmhelper.Client)
 
 	vdm, _ := client.Vdms.Read(d.Get("vmid").(string), d.Id())
 
@@ -88,8 +88,8 @@ func resourceOvmVdmRead(d *schema.ResourceData, meta interface{}) error {
 		return nil
 	}
 
-	d.Set("vmid", vdm.VmId)
-	d.Set("vdid", vdm.VirtualDiskId)
+	d.Set("vmid", vdm.VMID)
+	d.Set("vdid", vdm.VirtualDiskID)
 	d.Set("slot", vdm.DiskTarget)
 	d.Set("description", vdm.Description)
 	d.Set("name", vdm.Name)
@@ -97,13 +97,13 @@ func resourceOvmVdmRead(d *schema.ResourceData, meta interface{}) error {
 }
 
 func resourceOvmVdmCreate(d *schema.ResourceData, meta interface{}) error {
-	client := meta.(*ovmHelper.Client)
+	client := meta.(*ovmhelper.Client)
 
 	vdm, err := checkForResourceVdm(d)
 	if err != nil {
 		return err
 	}
-	log.Printf("[INFO] Creating vdm for vmid: %v, vdid: %v, slot: %v", vdm.VmId.Value, vdm.VirtualDiskId.Value, vdm.DiskTarget)
+	log.Printf("[INFO] Creating vdm for vmid: %v, vdid: %v, slot: %v", vdm.VMID.Value, vdm.VirtualDiskID.Value, vdm.DiskTarget)
 
 	v, err := client.Vdms.Create(vdm)
 	if err != nil {
@@ -116,7 +116,7 @@ func resourceOvmVdmCreate(d *schema.ResourceData, meta interface{}) error {
 }
 
 func resourceOvmVdmDelete(d *schema.ResourceData, meta interface{}) error {
-	client := meta.(*ovmHelper.Client)
+	client := meta.(*ovmhelper.Client)
 	//log.Printf("[INFO] Deleting Vdm: %v", d.Id())
 
 	err := client.Vdms.Delete(d.Get("vmid").(string), d.Id())

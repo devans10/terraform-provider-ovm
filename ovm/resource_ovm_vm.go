@@ -6,7 +6,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/devans10/go-ovm-helper/ovmHelper"
+	"github.com/devans10/go-ovm-helper/ovmhelper"
 	"github.com/hashicorp/terraform/helper/hashcode"
 	"github.com/hashicorp/terraform/helper/schema"
 )
@@ -392,22 +392,22 @@ func resourceOvmVM() *schema.Resource {
 	}
 }
 
-func checkForResource(d *schema.ResourceData) (ovmHelper.Vm, ovmHelper.CfgVm, error) {
+func checkForResource(d *schema.ResourceData) (ovmhelper.VM, ovmhelper.CfgVM, error) {
 
-	vmParams := &ovmHelper.Vm{}
-	tfVMCfgParams := &ovmHelper.CfgVm{}
+	vmParams := &ovmhelper.VM{}
+	tfVMCfgParams := &ovmhelper.CfgVM{}
 
 	if v, ok := d.GetOk("name"); ok {
 		vmParams.Name = v.(string)
 	}
 	if v, ok := d.GetOk("repositoryid"); ok {
-		vmParams.RepositoryId = &ovmHelper.Id{
+		vmParams.RepositoryID = &ovmhelper.ID{
 			Value: v.(map[string]interface{})["value"].(string),
 			Type:  v.(map[string]interface{})["type"].(string),
 		}
 	}
 	if v, ok := d.GetOk("serverpoolid"); ok {
-		vmParams.ServerPoolId = &ovmHelper.Id{
+		vmParams.ServerPoolID = &ovmhelper.ID{
 			Value: v.(map[string]interface{})["value"].(string),
 			Type:  v.(map[string]interface{})["type"].(string),
 		}
@@ -416,16 +416,16 @@ func checkForResource(d *schema.ResourceData) (ovmHelper.Vm, ovmHelper.CfgVm, er
 		vmParams.BootOrder = v.([]string)
 	}
 	if v, ok := d.GetOk("cpucount"); ok {
-		vmParams.CpuCount = v.(int)
+		vmParams.CPUCount = v.(int)
 	}
 	if v, ok := d.GetOk("cpucountlimit"); ok {
-		vmParams.CpuCountLimit = v.(int)
+		vmParams.CPUCountLimit = v.(int)
 	}
 	if v, ok := d.GetOk("cpupriority"); ok {
-		vmParams.CpuPriority = v.(int)
+		vmParams.CPUPriority = v.(int)
 	}
 	if v, ok := d.GetOk("cpuutilizationcap"); ok {
-		vmParams.CpuUtilizationCap = v.(int)
+		vmParams.CPUUtilizationCap = v.(int)
 	}
 	if v, ok := d.GetOk("description"); ok {
 		vmParams.Description = v.(string)
@@ -452,10 +452,10 @@ func checkForResource(d *schema.ResourceData) (ovmHelper.Vm, ovmHelper.CfgVm, er
 		vmParams.OsType = v.(string)
 	}
 	if v, ok := d.GetOk("vmdomaintype"); ok {
-		vmParams.VmDomainType = v.(string)
+		vmParams.VMDomainType = v.(string)
 	}
 	if v, ok := d.GetOk("vmmousetype"); ok {
-		vmParams.VmMouseType = v.(string)
+		vmParams.VMMouseType = v.(string)
 	}
 
 	if v, ok := d.GetOk("sendmessages"); ok {
@@ -470,7 +470,7 @@ func checkForResource(d *schema.ResourceData) (ovmHelper.Vm, ovmHelper.CfgVm, er
 func resourceOvmVMCreate(d *schema.ResourceData, meta interface{}) error {
 	var v *string
 
-	client := meta.(*ovmHelper.Client)
+	client := meta.(*ovmhelper.Client)
 
 	vm, tfVMCfgParams, err := checkForResource(d)
 	if err != nil {
@@ -478,12 +478,12 @@ func resourceOvmVMCreate(d *schema.ResourceData, meta interface{}) error {
 	}
 
 	if d.Get("imageid").(string) == "" {
-		v, err = client.Vms.CreateVm(vm, tfVMCfgParams)
+		v, err = client.Vms.CreateVM(vm, tfVMCfgParams)
 		if err != nil {
 			return err
 		}
 	} else {
-		v, err = client.Vms.CloneVm(d.Get("imageid").(string), d.Get("vmclonedefinitionid").(string), vm, tfVMCfgParams)
+		v, err = client.Vms.CloneVM(d.Get("imageid").(string), d.Get("vmclonedefinitionid").(string), vm, tfVMCfgParams)
 		if err != nil {
 			return err
 		}
@@ -495,7 +495,7 @@ func resourceOvmVMCreate(d *schema.ResourceData, meta interface{}) error {
 }
 
 func resourceOvmVMRead(d *schema.ResourceData, meta interface{}) error {
-	client := meta.(*ovmHelper.Client)
+	client := meta.(*ovmhelper.Client)
 
 	vm, _ := client.Vms.Read(d.Id())
 
@@ -506,15 +506,15 @@ func resourceOvmVMRead(d *schema.ResourceData, meta interface{}) error {
 	}
 
 	d.Set("name", vm.Name)
-	d.Set("repositoryid", flattenID(vm.RepositoryId))
-	d.Set("serverpoolid", flattenID(vm.ServerPoolId))
-	d.Set("affinitygroupids", flattenIds(vm.AffinityGroupIds))
+	d.Set("repositoryid", flattenID(vm.RepositoryID))
+	d.Set("serverpoolid", flattenID(vm.ServerPoolID))
+	d.Set("affinitygroupids", flattenIds(vm.AffinityGroupIDs))
 	d.Set("architecture", vm.Architecture)
 	d.Set("bootorder", vm.BootOrder)
-	d.Set("cpucount", vm.CpuCount)
-	d.Set("cpucountlimit", vm.CpuCountLimit)
-	d.Set("cpupriority", vm.CpuPriority)
-	d.Set("cpuutilizationcap", vm.CpuUtilizationCap)
+	d.Set("cpucount", vm.CPUCount)
+	d.Set("cpucountlimit", vm.CPUCountLimit)
+	d.Set("cpupriority", vm.CPUPriority)
+	d.Set("cpuutilizationcap", vm.CPUUtilizationCap)
 	d.Set("description", vm.Description)
 	d.Set("disklimit", vm.DiskLimit)
 	d.Set("generation", vm.Generation)
@@ -536,34 +536,34 @@ func resourceOvmVMRead(d *schema.ResourceData, meta interface{}) error {
 	d.Set("restartactiononcrash", vm.RestartActionOnCrash)
 	d.Set("restartactiononpoweroff", vm.RestartActionOnPowerOff)
 	d.Set("restartactiononrestart", vm.RestartActionOnRestart)
-	d.Set("vmdomaintype", vm.VmDomainType)
-	d.Set("serverid", flattenID(vm.ServerId))
+	d.Set("vmdomaintype", vm.VMDomainType)
+	d.Set("serverid", flattenID(vm.ServerID))
 	d.Set("sslvncport", vm.SslVncPort)
 	d.Set("sslttyport", vm.SslTtyPort)
 	d.Set("userdata", vm.UserData)
-	d.Set("virutalnicids", flattenIds(vm.VirtualNicIds))
-	d.Set("vmapiversion", vm.VmApiVersion)
-	d.Set("vmclonedefinitions", flattenIds(vm.VmCloneDefinitionIds))
-	d.Set("vmconfigfileabsolutepath", vm.VmConfigFileAbsolutePath)
-	d.Set("vmconfigfilemountedpath", vm.VmConfigFileMountedPath)
-	d.Set("vmdiskmappingids", flattenIds(vm.VmDiskMappingIds))
-	d.Set("vmdomaintype", vm.VmDomainType)
-	d.Set("vmmousetype", vm.VmMouseType)
-	d.Set("vmrunstate", vm.VmRunState)
-	d.Set("vmstartpolicy", vm.VmStartPolicy)
+	d.Set("virutalnicids", flattenIds(vm.VirtualNicIDs))
+	d.Set("vmapiversion", vm.VMApiVersion)
+	d.Set("vmclonedefinitions", flattenIds(vm.VMCloneDefinitionIDs))
+	d.Set("vmconfigfileabsolutepath", vm.VMConfigFileAbsolutePath)
+	d.Set("vmconfigfilemountedpath", vm.VMConfigFileMountedPath)
+	d.Set("vmdiskmappingids", flattenIds(vm.VMDiskMappingIds))
+	d.Set("vmdomaintype", vm.VMDomainType)
+	d.Set("vmmousetype", vm.VMMouseType)
+	d.Set("vmrunstate", vm.VMRunState)
+	d.Set("vmstartpolicy", vm.VMStartPolicy)
 
 	return nil
 }
 
 func resourceOvmVMDelete(d *schema.ResourceData, meta interface{}) error {
-	client := meta.(*ovmHelper.Client)
+	client := meta.(*ovmhelper.Client)
 	log.Printf("[INFO] Stopping Vm: %v", d.Id())
 	err := client.Vms.Stop(d.Id())
 	if err != nil {
 		return err
 	}
 	log.Printf("[INFO] Deleting Vm: %v", d.Id())
-	err = client.Vms.DeleteVm(d.Id())
+	err = client.Vms.DeleteVM(d.Id())
 	if err != nil {
 		return err
 	}
@@ -572,24 +572,24 @@ func resourceOvmVMDelete(d *schema.ResourceData, meta interface{}) error {
 }
 
 func resourceOvmVMUpdate(d *schema.ResourceData, meta interface{}) error {
-	client := meta.(*ovmHelper.Client)
+	client := meta.(*ovmhelper.Client)
 	vm, _, err := checkForResource(d)
 	if err != nil {
 		return err
 	}
-	err = client.Vms.UpdateVm(d.Id(), vm)
+	err = client.Vms.UpdateVM(d.Id(), vm)
 	if err != nil {
 		return err
 	}
 	return resourceOvmVMRead(d, meta)
 }
 
-func sendmessagesFromMap(m map[string]interface{}) (*[]ovmHelper.KeyValuePair, *[]ovmHelper.KeyValuePair) {
+func sendmessagesFromMap(m map[string]interface{}) (*[]ovmhelper.KeyValuePair, *[]ovmhelper.KeyValuePair) {
 
-	result := make([]ovmHelper.KeyValuePair, 0, len(m))
-	password := make([]ovmHelper.KeyValuePair, 0, len(m))
+	result := make([]ovmhelper.KeyValuePair, 0, len(m))
+	password := make([]ovmhelper.KeyValuePair, 0, len(m))
 	for k, v := range m {
-		t := ovmHelper.KeyValuePair{
+		t := ovmhelper.KeyValuePair{
 			Key:   k,
 			Value: v.(string),
 		}

@@ -1,7 +1,7 @@
 package ovm
 
 import (
-	"github.com/devans10/go-ovm-helper/ovmHelper"
+	"github.com/devans10/go-ovm-helper/ovmhelper"
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
@@ -36,13 +36,13 @@ func resourceOvmVmcd() *schema.Resource {
 	}
 }
 
-func checkForResourceVmcd(d *schema.ResourceData) (ovmHelper.Vmcd, error) {
+func checkForResourceVmcd(d *schema.ResourceData) (ovmhelper.Vmcd, error) {
 
-	vmcdParams := &ovmHelper.Vmcd{}
+	vmcdParams := &ovmhelper.Vmcd{}
 
 	// required
 	if v, ok := d.GetOk("vmid"); ok {
-		vmcdParams.VmId = &ovmHelper.Id{Value: v.(string),
+		vmcdParams.VMID = &ovmhelper.ID{Value: v.(string),
 			Type: "com.oracle.ovm.mgr.ws.model.Vm"}
 	}
 	if v, ok := d.GetOk("name"); ok {
@@ -55,7 +55,7 @@ func checkForResourceVmcd(d *schema.ResourceData) (ovmHelper.Vmcd, error) {
 }
 
 func resourceOvmVmcdRead(d *schema.ResourceData, meta interface{}) error {
-	client := meta.(*ovmHelper.Client)
+	client := meta.(*ovmhelper.Client)
 
 	vmcd, _ := client.Vmcds.Read(d.Id())
 
@@ -64,14 +64,14 @@ func resourceOvmVmcdRead(d *schema.ResourceData, meta interface{}) error {
 		return nil
 	}
 
-	d.Set("vmid", vmcd.VmId)
+	d.Set("vmid", vmcd.VMID)
 	d.Set("description", vmcd.Description)
 	d.Set("name", vmcd.Name)
 	return nil
 }
 
 func resourceOvmVmcdCreate(d *schema.ResourceData, meta interface{}) error {
-	client := meta.(*ovmHelper.Client)
+	client := meta.(*ovmhelper.Client)
 
 	vmcd, err := checkForResourceVmcd(d)
 	if err != nil {
@@ -79,7 +79,7 @@ func resourceOvmVmcdCreate(d *schema.ResourceData, meta interface{}) error {
 	}
 	//log.Printf("[INFO] Creating vdm for vmid: %v, vdid: %v, slot: %v", vdm.VmId.Value, vdm.VirtualDiskId.Value, vdm.DiskTarget)
 
-	v, err := client.Vmcds.Create(vmcd.VmId.Value, vmcd)
+	v, err := client.Vmcds.Create(vmcd.VMID.Value, vmcd)
 	if err != nil {
 		return err
 	}
@@ -90,7 +90,7 @@ func resourceOvmVmcdCreate(d *schema.ResourceData, meta interface{}) error {
 }
 
 func resourceOvmVmcdDelete(d *schema.ResourceData, meta interface{}) error {
-	client := meta.(*ovmHelper.Client)
+	client := meta.(*ovmhelper.Client)
 	//log.Printf("[INFO] Deleting Vdm: %v", d.Id())
 
 	err := client.Vmcds.Delete(d.Get("vmid").(string), d.Id())

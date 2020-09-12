@@ -1,7 +1,7 @@
 package ovm
 
 import (
-	"github.com/devans10/go-ovm-helper/ovmHelper"
+	"github.com/devans10/go-ovm-helper/ovmhelper"
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
@@ -46,21 +46,21 @@ func resourceOvmVmcsm() *schema.Resource {
 	}
 }
 
-func checkForResourceVmcsm(d *schema.ResourceData) (ovmHelper.Vmcsm, error) {
+func checkForResourceVmcsm(d *schema.ResourceData) (ovmhelper.Vmcsm, error) {
 
-	vmcsmParams := &ovmHelper.Vmcsm{}
+	vmcsmParams := &ovmhelper.Vmcsm{}
 
 	// required
 	if v, ok := d.GetOk("vmdiskmappingid"); ok {
-		vmcsmParams.VmDiskMappingId = &ovmHelper.Id{Value: v.(string),
+		vmcsmParams.VMDiskMappingID = &ovmhelper.ID{Value: v.(string),
 			Type: "com.oracle.ovm.mgr.ws.model.VmDiskMapping"}
 	}
 	if v, ok := d.GetOk("vmclonedefinitionid"); ok {
-		vmcsmParams.VmCloneDefinitionId = &ovmHelper.Id{Value: v.(string),
+		vmcsmParams.VMCloneDefinitionID = &ovmhelper.ID{Value: v.(string),
 			Type: "com.oracle.ovm.mgr.ws.model.VmCloneDefinition"}
 	}
 	if v, ok := d.GetOk("repositoryid"); ok {
-		vmcsmParams.RepositoryId = &ovmHelper.Id{Value: v.(string),
+		vmcsmParams.RepositoryID = &ovmhelper.ID{Value: v.(string),
 			Type: "com.oracle.ovm.mgr.ws.model.Repository"}
 	}
 	if v, ok := d.GetOk("clonetype"); ok {
@@ -73,7 +73,7 @@ func checkForResourceVmcsm(d *schema.ResourceData) (ovmHelper.Vmcsm, error) {
 }
 
 func resourceOvmVmcsmRead(d *schema.ResourceData, meta interface{}) error {
-	client := meta.(*ovmHelper.Client)
+	client := meta.(*ovmhelper.Client)
 
 	vmcsm, _ := client.Vmcsms.Read(d.Id())
 
@@ -82,16 +82,16 @@ func resourceOvmVmcsmRead(d *schema.ResourceData, meta interface{}) error {
 		return nil
 	}
 
-	d.Set("vmdiskmappingid", vmcsm.VmDiskMappingId.Value)
-	d.Set("vmclonedefinitionid", vmcsm.VmCloneDefinitionId.Value)
-	d.Set("repositoryid", vmcsm.RepositoryId.Value)
+	d.Set("vmdiskmappingid", vmcsm.VMDiskMappingID.Value)
+	d.Set("vmclonedefinitionid", vmcsm.VMCloneDefinitionID.Value)
+	d.Set("repositoryid", vmcsm.RepositoryID.Value)
 	d.Set("clonetype", vmcsm.CloneType)
 	d.Set("name", vmcsm.Name)
 	return nil
 }
 
 func resourceOvmVmcsmCreate(d *schema.ResourceData, meta interface{}) error {
-	client := meta.(*ovmHelper.Client)
+	client := meta.(*ovmhelper.Client)
 
 	vmcsm, err := checkForResourceVmcsm(d)
 	if err != nil {
@@ -99,7 +99,7 @@ func resourceOvmVmcsmCreate(d *schema.ResourceData, meta interface{}) error {
 	}
 	//log.Printf("[INFO] Creating vdm for vmid: %v, vdid: %v, slot: %v", vdm.VmId.Value, vdm.VirtualDiskId.Value, vdm.DiskTarget)
 
-	v, err := client.Vmcsms.Create(vmcsm.VmCloneDefinitionId.Value, vmcsm)
+	v, err := client.Vmcsms.Create(vmcsm.VMCloneDefinitionID.Value, vmcsm)
 	if err != nil {
 		return err
 	}
@@ -110,7 +110,7 @@ func resourceOvmVmcsmCreate(d *schema.ResourceData, meta interface{}) error {
 }
 
 func resourceOvmVmcsmDelete(d *schema.ResourceData, meta interface{}) error {
-	client := meta.(*ovmHelper.Client)
+	client := meta.(*ovmhelper.Client)
 	//log.Printf("[INFO] Deleting Vdm: %v", d.Id())
 
 	err := client.Vmcsms.Delete(d.Get("vmclonedefinitionid").(string), d.Id())

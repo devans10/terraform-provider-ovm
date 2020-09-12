@@ -3,7 +3,7 @@ package ovm
 import (
 	"fmt"
 
-	"github.com/devans10/go-ovm-helper/ovmHelper"
+	"github.com/devans10/go-ovm-helper/ovmhelper"
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
@@ -33,9 +33,9 @@ func dataSourceOvmServerPool() *schema.Resource {
 }
 
 func dataSourceOvmServerPoolRead(d *schema.ResourceData, meta interface{}) error {
-	client := meta.(*ovmHelper.Client)
+	client := meta.(*ovmhelper.Client)
 
-	id, err := client.ServerPool.GetIdFromName(d.Get("name").(string))
+	id, err := client.ServerPool.GetIDFromName(d.Get("name").(string))
 	if err != nil {
 		d.SetId("")
 		fmt.Println(err)
@@ -44,7 +44,7 @@ func dataSourceOvmServerPoolRead(d *schema.ResourceData, meta interface{}) error
 
 	d.Set("name", id.Name)
 	d.Set("value", id.Value)
-	d.Set("uri", id.Uri)
+	d.Set("uri", id.URI)
 	d.Set("type", id.Type)
 
 	return nil
