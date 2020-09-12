@@ -28,10 +28,7 @@ func resourceOvmVmcsm() *schema.Resource {
 				ForceNew: true,
 			},
 			"repositoryid": {
-				Type: schema.TypeMap,
-				Elem: &schema.Schema{
-					Type: schema.TypeString,
-				},
+				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
@@ -87,7 +84,7 @@ func resourceOvmVmcsmRead(d *schema.ResourceData, meta interface{}) error {
 
 	d.Set("vmdiskmappingid", vmcsm.VmDiskMappingId.Value)
 	d.Set("vmclonedefinitionid", vmcsm.VmCloneDefinitionId.Value)
-	d.Set("repositoryid", flattenID(vmcsm.RepositoryId))
+	d.Set("repositoryid", vmcsm.RepositoryId.Value)
 	d.Set("clonetype", vmcsm.CloneType)
 	d.Set("name", vmcsm.Name)
 	return nil
