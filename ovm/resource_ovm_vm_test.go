@@ -12,8 +12,9 @@ import (
 func TestAccResourceOvmVM(t *testing.T) {
 	resourceName := "ovm_vm.cloneoel7"
 	resource.Test(t, resource.TestCase{
-		PreCheck:  func() { testAccPreChecks(t) },
-		Providers: testAccProviders,
+		PreCheck:     func() { testAccPreChecks(t) },
+		Providers:    testAccProviders,
+		CheckDestroy: testAccCheckOvmVMDestroy,
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCheckOvmVMConfig,

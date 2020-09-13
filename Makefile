@@ -42,4 +42,7 @@ test-compile:
 	fi
 	go test -c $(TEST) $(TESTARGS)
 
-.PHONY: build test testacc vet fmt fmtcheck errcheck vendor-status test-compile website website-test
+release:
+    goreleaser release --rm-dist
+
+.PHONY: build test testacc vet fmt fmtcheck errcheck vendor-status test-compile release website website-test
