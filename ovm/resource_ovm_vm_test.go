@@ -20,6 +20,11 @@ func TestAccResourceOvmVM(t *testing.T) {
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckOvmVMID(resourceName),
 					resource.TestCheckResourceAttr(resourceName, "name", "cloneoel7Vm"),
+					resource.TestCheckResourceAttr(resourceName, "memorylimit", "4096"),
+					resource.TestCheckResourceAttr(resourceName, "memory", "4096"),
+					resource.TestCheckResourceAttr(resourceName, "cpucountlimit", "4"),
+					resource.TestCheckResourceAttr(resourceName, "cpucount", "4"),
+					resource.TestCheckResourceAttr(resourceName, "vmdomaintype", "XEN_HVM_PV_DRIVERS"),
 				),
 			},
 		},
@@ -81,9 +86,7 @@ resource "ovm_vmcd" "oel7_tmpl_cst" {
   
 # //Defining Vm Clone Storage Mapping
 resource "ovm_vmcsm" "oel7_vmclonestoragemapping" {
-    for_each = toset(data.ovm_vm.ovm_template.vmdiskmappingids.*.value)
-  
-	vmdiskmappingid     = each.key
+	vmdiskmappingid     = "0004fb00001300001356f01b2ed0d6f3"
 	vmclonedefinitionid = ovm_vmcd.oel7_tmpl_cst.id
 	repositoryid        = data.ovm_repository.repo
 	name                = "oel_cust_storage"
