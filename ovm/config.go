@@ -23,7 +23,7 @@ func (c *Config) Client() (*ovmhelper.Client, error) {
 	if v := os.Getenv("OVM_PASSWORD"); v != "" {
 		c.Password = v
 	}
-	if v := os.Getenv("OVM_ENTRYPOINT"); v != "" {
+	if v := os.Getenv("OVM_ENDPOINT"); v != "" {
 		c.Entrypoint = v
 	}
 

@@ -384,6 +384,44 @@ func resourceOvmVM() *schema.Resource {
 				Required: false,
 				ForceNew: true,
 			},
+			"virtualnic": {
+				Type: schema.TypeSet,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"networkid": {
+							Type: schema.TypeMap,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+							Required: true,
+						},
+						"macaddress": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"vmid": {
+							Type: schema.TypeMap,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+							Computed: true,
+						},
+						"name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"generation": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+					},
+				},
+				Set:      resourceOvmVNHash,
+				Optional: true,
+				Computed: true,
+			},
 			"sendmessages": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -610,6 +648,17 @@ func resourceOvmUserDataHash(v interface{}) int {
 		strings.ToLower(m["value"].(string))))
 	buf.WriteString(fmt.Sprintf("%s-",
 		strings.ToLower(m["key"].(string))))
+
+	return hashcode.String(buf.String())
+}
+
+func resourceOvmVNHash(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	buf.WriteString(fmt.Sprintf("%s-",
+		strings.ToLower(m["macaddress"].(string))))
+	buf.WriteString(fmt.Sprintf("%s-",
+		strings.ToLower(m["name"].(string))))
 
 	return hashcode.String(buf.String())
 }
