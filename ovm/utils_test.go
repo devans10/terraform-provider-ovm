@@ -20,6 +20,7 @@ func TestFlattenID(t *testing.T) {
 				URI:   "https://localhost:7002//ovm/core/wsapi/rest/VmDiskMapping/0004fb0000130000dfc5261750e0df78",
 			},
 			expected: map[string]interface{}{
+				"id":    "0004fb0000130000dfc5261750e0df78",
 				"name":  "testexample",
 				"value": "0004fb0000130000dfc5261750e0df78",
 				"type":  "com.oracle.ovm.mgr.ws.model.VmDiskMapping",
@@ -52,6 +53,7 @@ func TestFlattenIDs(t *testing.T) {
 			},
 			expected: []map[string]interface{}{
 				{
+					"id":    "0004fb0000130000dfc5261750e0df78",
 					"name":  "testexample",
 					"value": "0004fb0000130000dfc5261750e0df78",
 					"type":  "com.oracle.ovm.mgr.ws.model.VmDiskMapping",

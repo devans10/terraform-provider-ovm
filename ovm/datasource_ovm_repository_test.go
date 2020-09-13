@@ -17,7 +17,9 @@ func TestAccDataSourceOvmRepository(t *testing.T) {
 			{
 				Config: testAccCheckOvmRepositoryDataSourceConfig,
 				Check: resource.ComposeTestCheckFunc(
+					testAccCheckOvmRepositoryDataSourceID(resourceName),
 					resource.TestCheckResourceAttr(resourceName, "name", "ovm-corp-repository"),
+					resource.TestCheckResourceAttr(resourceName, "type", "com.oracle.ovm.mgr.ws.model.Repository"),
 				),
 			},
 		},

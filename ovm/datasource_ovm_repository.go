@@ -42,6 +42,7 @@ func dataSourceOvmRepositoryRead(d *schema.ResourceData, meta interface{}) error
 		return err
 	}
 
+	d.SetId(id.Value)
 	d.Set("value", id.Value)
 	d.Set("name", id.Name)
 	d.Set("uri", id.URI)

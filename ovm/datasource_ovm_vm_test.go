@@ -8,25 +8,24 @@ import (
 	"github.com/hashicorp/terraform/terraform"
 )
 
-func TestAccDataSourceOvmServerPool(t *testing.T) {
-	resourceName := "data.ovm_serverpool.serverpool"
+func TestAccDataSourceOvmVM(t *testing.T) {
+	resourceName := "data.ovm_vm.ovm_template"
 	resource.Test(t, resource.TestCase{
 		PreCheck:  func() { testAccPreChecks(t) },
 		Providers: testAccProviders,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccCheckOvmServerPoolDataSourceConfig,
+				Config: testAccCheckOvmVMDataSourceConfig,
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckOvmServerPoolDataSourceID(resourceName),
-					resource.TestCheckResourceAttr(resourceName, "name", "xen-pool2"),
-					resource.TestCheckResourceAttr(resourceName, "type", "com.oracle.ovm.mgr.ws.model.ServerPool"),
+					testAccCheckOvmVMDataSourceID(resourceName),
+					resource.TestCheckResourceAttr(resourceName, "name", "oracle77-devans-dev.0"),
 				),
 			},
 		},
 	})
 }
 
-func testAccCheckOvmServerPoolDataSourceID(n string) resource.TestCheckFunc {
+func testAccCheckOvmVMDataSourceID(n string) resource.TestCheckFunc {
 	return func(s *terraform.State) error {
 		rs, ok := s.RootModule().Resources[n]
 		if !ok {
@@ -40,8 +39,13 @@ func testAccCheckOvmServerPoolDataSourceID(n string) resource.TestCheckFunc {
 	}
 }
 
-const testAccCheckOvmServerPoolDataSourceConfig = `
-data "ovm_serverpool" "serverpool" {
-	name = "xen-pool2"
+const testAccCheckOvmVMDataSourceConfig = `
+data "ovm_repository" "repo" {
+	name = "ovm-corp-repository"
+}
+
+data "ovm_vm" "ovm_template" {
+	name         = "oracle77-devans-dev.0"
+	repositoryid = data.ovm_repository.repo
 }
 `
