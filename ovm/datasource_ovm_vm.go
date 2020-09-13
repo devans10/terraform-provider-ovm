@@ -70,6 +70,10 @@ func dataSourceOvmVM() *schema.Resource {
 				Type: schema.TypeSet,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
 						"type": {
 							Type:     schema.TypeString,
 							Required: true,
@@ -95,6 +99,10 @@ func dataSourceOvmVM() *schema.Resource {
 				Type: schema.TypeSet,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
 						"type": {
 							Type:     schema.TypeString,
 							Required: true,
