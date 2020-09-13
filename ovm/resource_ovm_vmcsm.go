@@ -87,6 +87,7 @@ func resourceOvmVmcsmRead(d *schema.ResourceData, meta interface{}) error {
 		return nil
 	}
 
+	d.SetId(vmcsm.ID.Value)
 	d.Set("vmdiskmappingid", vmcsm.VMDiskMappingID.Value)
 	d.Set("vmclonedefinitionid", vmcsm.VMCloneDefinitionID.Value)
 	d.Set("repositoryid", flattenID(vmcsm.RepositoryID))
@@ -111,7 +112,7 @@ func resourceOvmVmcsmCreate(d *schema.ResourceData, meta interface{}) error {
 
 	d.SetId(*v)
 
-	return nil
+	return resourceOvmVmcsmRead(d, meta)
 }
 
 func resourceOvmVmcsmDelete(d *schema.ResourceData, meta interface{}) error {

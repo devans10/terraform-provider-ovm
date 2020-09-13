@@ -51,6 +51,10 @@ func resourceOvmVM() *schema.Resource {
 				Type: schema.TypeSet,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
 						"type": {
 							Type:     schema.TypeString,
 							Required: true,
@@ -183,6 +187,10 @@ func resourceOvmVM() *schema.Resource {
 				Type: schema.TypeSet,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
 						"type": {
 							Type:     schema.TypeString,
 							Required: true,
@@ -256,6 +264,10 @@ func resourceOvmVM() *schema.Resource {
 				Type: schema.TypeSet,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
 						"type": {
 							Type:     schema.TypeString,
 							Required: true,
@@ -286,6 +298,10 @@ func resourceOvmVM() *schema.Resource {
 				Type: schema.TypeSet,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
 						"type": {
 							Type:     schema.TypeString,
 							Required: true,
@@ -319,6 +335,10 @@ func resourceOvmVM() *schema.Resource {
 				Type: schema.TypeSet,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
 						"type": {
 							Type:     schema.TypeString,
 							Required: true,

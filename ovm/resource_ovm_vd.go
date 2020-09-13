@@ -119,7 +119,7 @@ func resourceOvmVdCreate(d *schema.ResourceData, meta interface{}) error {
 
 	d.SetId(*v)
 
-	return nil
+	return resourceOvmVdmRead(d, meta)
 }
 
 func resourceOvmVdUpdate(d *schema.ResourceData, meta interface{}) error {
@@ -132,7 +132,7 @@ func resourceOvmVdUpdate(d *schema.ResourceData, meta interface{}) error {
 	if err != nil {
 		return err
 	}
-	return nil
+	return resourceOvmVdmRead(d, meta)
 }
 
 func resourceOvmVdDelete(d *schema.ResourceData, meta interface{}) error {

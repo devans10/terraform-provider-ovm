@@ -86,7 +86,7 @@ func resourceOvmVmcdCreate(d *schema.ResourceData, meta interface{}) error {
 
 	d.SetId(*v)
 
-	return nil
+	return resourceOvmVmcdRead(d, meta)
 }
 
 func resourceOvmVmcdDelete(d *schema.ResourceData, meta interface{}) error {
