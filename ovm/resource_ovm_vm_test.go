@@ -3,6 +3,7 @@ package ovm
 import (
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/devans10/go-ovm-helper/ovmhelper"
 	"github.com/hashicorp/terraform/helper/resource"
@@ -12,9 +13,8 @@ import (
 func TestAccResourceOvmVM(t *testing.T) {
 	resourceName := "ovm_vm.cloneoel7"
 	resource.Test(t, resource.TestCase{
-		PreCheck:     func() { testAccPreChecks(t) },
-		Providers:    testAccProviders,
-		CheckDestroy: testAccCheckOvmVMDestroy,
+		PreCheck:  func() { testAccPreChecks(t) },
+		Providers: testAccProviders,
 		Steps: []resource.TestStep{
 			{
 				Config: testAccCheckOvmVMConfig,
@@ -48,6 +48,8 @@ func testAccCheckOvmVMID(n string) resource.TestCheckFunc {
 
 func testAccCheckOvmVMDestroy(s *terraform.State) error {
 	client := testAccProvider.Meta().(*ovmhelper.Client)
+
+	time.Sleep(5 * time.Second)
 
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type != "ovm_vm" {
@@ -96,7 +98,7 @@ resource "ovm_vmcsm" "oel7_vmclonestoragemapping" {
   
   # //Defining Vm Clone Network Mappings.
   # # resource "ovm_vmcnm" "oel7_vmclonenetworkmapping" {
-  # #   networkid           = "	1063b8b5eb"
+  # #   networkid           = "1063b8b5eb"
   # #   vmclonedefinitionid = "${ovm_vmcd.oe7_tmpl_cst.id}"
   # #   virtualnicid        = "${var.virtualnicid}"
   # #   name                = "oel_cust_network"

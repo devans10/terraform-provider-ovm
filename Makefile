@@ -43,6 +43,6 @@ test-compile:
 	go test -c $(TEST) $(TESTARGS)
 
 release:
-    goreleaser release --rm-dist
+	goreleaser release --rm-dist
 
 .PHONY: build test testacc vet fmt fmtcheck errcheck vendor-status test-compile release website website-test
