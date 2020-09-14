@@ -550,7 +550,7 @@ func resourceOvmVMCreate(d *schema.ResourceData, meta interface{}) error {
 	if vns := d.Get("virtualnic").(*schema.Set).List(); len(vns) > 0 {
 		for _, vn := range vns {
 			nic := ovmhelper.Vn{NetworkID: &ovmhelper.ID{Type: "com.oracle.ovm.mgr.ws.model.Network",
-				Value: vn.(map[string]interface{})["networkid"].(string)},
+				Value: vn.(map[string]interface{})["networkid"].(map[string]interface{})["value"].(string)},
 				VMID: &ovmhelper.ID{Type: "com.oracle.ovm.mgr.ws.model.Vm",
 					Value: *v},
 			}
